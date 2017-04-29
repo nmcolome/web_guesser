@@ -18,8 +18,24 @@ require 'sinatra/reloader'
     end
   end
 
+def check_color(guess)
+    if guess.to_i == SECRET_NUMBER
+      "green"
+    elsif guess.to_i - SECRET_NUMBER > 5
+      "red"
+    elsif guess.to_i > SECRET_NUMBER
+      "#ffe6e6"
+    elsif SECRET_NUMBER - guess.to_i > 5
+      "red"
+    elsif guess.to_i < SECRET_NUMBER
+      "#ffe6e6"
+    end
+  end
+
+
 get '/' do
   guess = params["guess"]
   message = check_guess(guess)
-  erb :index, :locals => {:number => number, :message => message}
+  color = check_color(guess)
+  erb :index, :locals => {:number => number, :message => message, :color => color}
 end
